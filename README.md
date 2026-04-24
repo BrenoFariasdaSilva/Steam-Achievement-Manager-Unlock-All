@@ -1,4 +1,3 @@
-
 # Steam Achievement Manager (SAM) — Automated Fork
 
 This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://github.com/gibbed/SteamAchievementManager), with a fully automated achievement unlocking system. This fork introduces a new project, **SAM.PickerAuto**, which enables one-click, unattended unlocking of all achievements for all games in your Steam library.
