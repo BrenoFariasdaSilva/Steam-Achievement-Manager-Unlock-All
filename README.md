@@ -9,6 +9,26 @@
 ---
 
 This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://github.com/gibbed/SteamAchievementManager), with a fully automated achievement unlocking system. This fork introduces a new project, **SAM.PickerAuto**, which enables one-click, unattended unlocking of all achievements for all games in your Steam library.
+  
+---
+
+</div>
+
+<div align="center">
+
+![GitHub Code Size in Bytes](https://img.shields.io/github/languages/code-size/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Commits](https://img.shields.io/github/commit-activity/t/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All/master)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Forks](https://img.shields.io/github/forks/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Language Count](https://img.shields.io/github/languages/count/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub License](https://img.shields.io/github/license/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Stars](https://img.shields.io/github/stars/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Contributors](https://img.shields.io/github/contributors/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![GitHub Created At](https://img.shields.io/github/created-at/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
+![wakatime](https://wakatime.com/badge/github/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-Allsvg)
+
+</div>
+
 
 ## Features
 
