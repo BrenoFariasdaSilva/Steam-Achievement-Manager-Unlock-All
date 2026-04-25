@@ -113,6 +113,190 @@ Run `SAM.Picker.exe` to manually select and unlock achievements for individual g
 **6. AutoUnlocker.cs (SAM.Game)**
 	- New static class for headless automation logic: waits for stats, unlocks all, commits, returns status.
 
+## Development Setup (Visual Studio / Build Instructions)
+
+This section explains how to install the required tools, open the project, and build the solution to generate the executables, including `SAM.PickerAuto.exe`.
+
+---
+
+### 1. Install Visual Studio (Required)
+
+#### Recommended Version
+- Visual Studio Community (free)
+
+#### Download
+- https://visualstudio.microsoft.com/vs/community/
+
+#### Required Workload (MANDATORY)
+During installation, select:
+
+- **.NET Desktop Development**
+
+This is required for:
+- WinForms (UI projects)
+- C# build tools
+- MSBuild integration
+
+---
+
+### 2. Required Components
+
+Inside Visual Studio Installer, ensure the following are selected:
+
+#### Individual Components
+- .NET Framework 4.x targeting pack (match solution target version)
+- MSBuild
+- Windows 10/11 SDK
+- C# and Visual Basic Roslyn compiler
+- Git for Windows (optional but recommended)
+
+---
+
+### 3. Opening the Project
+
+1. Open Visual Studio
+2. Click:
+
+```
+File → Open → Project/Solution
+```
+
+3. Select:
+
+```
+SAM.sln
+```
+
+4. Wait for:
+- NuGet restore (automatic)
+- Project indexing
+- Solution load completion
+
+---
+
+### 4. Restore Dependencies
+
+If required:
+
+```
+Build → Restore NuGet Packages
+```
+
+or right-click solution:
+
+```
+Restore NuGet Packages
+```
+
+---
+
+### 5. Build the Solution
+
+#### Build Entire Solution
+
+```
+Build → Build Solution
+```
+
+#### Keyboard Shortcut (Windows)
+```
+Ctrl + Shift + B
+```
+
+This will compile:
+- SAM.API
+- SAM.Game
+- SAM.Picker
+- SAM.PickerAuto
+
+---
+
+#### Cancel Build
+```
+Ctrl + Break
+```
+
+---
+
+#### Compile Active Project Only
+```
+Ctrl + F7
+```
+
+---
+
+#### Run Code Analysis (Optional)
+```
+Alt + F11
+```
+
+---
+
+### 6. Output Location
+
+After successful build, executables will be generated in:
+
+```
+/bin/Debug/
+/bin/Release/
+```
+
+Depending on configuration:
+
+- `SAM.Picker.exe`
+- `SAM.PickerAuto.exe`
+- `SAM.Game.exe`
+
+---
+
+### 7. Running the Application
+
+#### Standard Mode
+Run:
+```
+SAM.Picker.exe
+```
+
+#### Automated Mode
+Run:
+```
+SAM.PickerAuto.exe
+```
+
+Then click:
+```
+Unlock All
+```
+
+---
+
+### 8. Build Configuration Notes
+
+Ensure configuration is set correctly in Visual Studio:
+
+- Debug → for development
+- Release → for production build
+
+Use top toolbar:
+
+```
+Solution Configuration: Release
+Solution Platform: Any CPU
+```
+
+---
+
+### 9. Common Build Issues
+
+#### Missing .NET Target
+- Install required .NET Framework via Visual Studio Installer
+
+#### NuGet Errors
+- Restore packages manually
+
+#### Build Fails on SAM.Game
+- Ensure Steamworks dependencies are present in project references
+
 ## Attribution
 
 Original project by [gibbed](https://github.com/gibbed/SteamAchievementManager). Most icons are from the [Fugue Icons](https://p.yusukekamiyamane.com/) set.
