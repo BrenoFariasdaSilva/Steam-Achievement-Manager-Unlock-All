@@ -35,6 +35,13 @@ This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://
 
 </div>
 
+## Requirements
+
+- .NET Framework 4.x (matching the target version of the solution)
+- Steam client installed and logged in
+- Visual Studio (for development and building)
+- Optional: Git for version control
+- Optional: NuGet package manager for dependency management
 
 ## Features
 
