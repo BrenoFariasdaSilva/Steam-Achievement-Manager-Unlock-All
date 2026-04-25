@@ -35,6 +35,11 @@ This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://
 
 </div>
 
+## Introduction
+
+Detailed project description.
+Steam Achievement Manager (SAM) is a powerful tool that allows users to manage, unlock, and edit their Steam achievements and statistics for any game. This fork of SAM introduces a new project called **SAM.PickerAuto**, which provides an automated achievement unlocking system. With just one click, users can unlock all achievements for all games in their Steam library without any manual intervention. The automation is handled through a new executable, `SAM.PickerAuto.exe`, which iterates through the games in the user's library and launches `SAM.Game.exe` in headless mode to unlock achievements silently in the background. This enhancement significantly streamlines the process of unlocking achievements, making it more efficient
+
 ## Requirements
 
 - .NET Framework 4.x (matching the target version of the solution)
