@@ -20,6 +20,19 @@
             base.Dispose(disposing);
         }
 
+        private void _LoopCountTextBox_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                var tb = sender as System.Windows.Forms.ToolStripTextBox;
+                if (e.KeyChar == '-' && tb != null && tb.Text.Length == 0)
+                {
+                    return;
+                }
+                e.Handled = true;
+            }
+        }
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -43,6 +56,8 @@
             this._FilterDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._FilterGamesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._UnlockAllButton = new System.Windows.Forms.ToolStripButton();
+            this._LoopsLabel = new System.Windows.Forms.ToolStripLabel();
+            this._LoopCountTextBox = new System.Windows.Forms.ToolStripTextBox();
             this._FilterDemosMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._FilterModsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._FilterJunkMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +105,9 @@
             this._FindGamesLabel,
             this._SearchGameTextBox,
             this._FilterDropDownButton,
-            this._UnlockAllButton});
+            this._UnlockAllButton,
+            this._LoopsLabel,
+            this._LoopCountTextBox});
             this._PickerToolStrip.Location = new System.Drawing.Point(0, 0);
             this._PickerToolStrip.Name = "_PickerToolStrip";
             this._PickerToolStrip.Size = new System.Drawing.Size(742, 25);
@@ -156,6 +173,21 @@
             this._UnlockAllButton.Text = "Unlock All";
             this._UnlockAllButton.ToolTipText = "Unlock all achievements for every game in the list";
             this._UnlockAllButton.Click += new System.EventHandler(this.OnUnlockAll);
+            //
+            // _LoopsLabel
+            //
+            this._LoopsLabel.Name = "_LoopsLabel";
+            this._LoopsLabel.Size = new System.Drawing.Size(45, 22);
+            this._LoopsLabel.Text = "Loops:";
+            //
+            // _LoopCountTextBox
+            //
+            this._LoopCountTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this._LoopCountTextBox.Name = "_LoopCountTextBox";
+            this._LoopCountTextBox.Size = new System.Drawing.Size(40, 25);
+            this._LoopCountTextBox.Text = "1";
+            this._LoopCountTextBox.MaxLength = 6;
+            this._LoopCountTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._LoopCountTextBox_KeyPress);
             //
             // _FilterGamesMenuItem
             //
@@ -291,6 +323,8 @@
         private System.Windows.Forms.ToolStripTextBox _SearchGameTextBox;
         private System.Windows.Forms.ToolStripLabel _FindGamesLabel;
         private System.Windows.Forms.ToolStripButton _UnlockAllButton;
+        private System.Windows.Forms.ToolStripLabel _LoopsLabel;
+        private System.Windows.Forms.ToolStripTextBox _LoopCountTextBox;
 
         #endregion
     }
