@@ -561,18 +561,98 @@ namespace SAM.Picker
                 return;
             }
 
+            // Parse and validate loop count
+            int loopCount = 1;
+            string input = this._LoopCountTextBox?.Text?.Trim();
+            if (string.IsNullOrEmpty(input) || !int.TryParse(input, out loopCount) || loopCount == 0 || loopCount < -1)
+            {
+                loopCount = 1;
+                if (this._LoopCountTextBox != null)
+                {
+                    this._LoopCountTextBox.Text = "1";
+                }
+            }
+
+            bool infinite = (loopCount == -1);
+            int currentLoop = 0;
+            bool criticalFailure = false;
+            int totalSucceeded = 0;
+            int totalFailed = 0;
+
             this._UnlockAllButton.Enabled = false;
             this._RefreshGamesButton.Enabled = false;
 
+            try
+            {
+                do
+                {
+                    currentLoop++;
+                    string loopStatus = infinite ?
+                        $"Loop {currentLoop} (infinite) - Starting..." :
+                        $"Loop {currentLoop} of {loopCount} - Starting...";
+                    this._PickerStatusLabel.Text = loopStatus;
+
+                    var (succeeded, failed, isCritical) = await this.RunUnlockAllIterationAsync(games, currentLoop, loopCount, infinite);
+
+                    totalSucceeded += succeeded;
+                    totalFailed += failed;
+
+                    if (isCritical)
+                    {
+                        criticalFailure = true;
+                        break;
+                    }
+
+                } while (infinite || currentLoop < loopCount);
+            }
+            finally
+            {
+                this._UnlockAllButton.Enabled = true;
+                this._RefreshGamesButton.Enabled = true;
+            }
+
+            if (!infinite && !criticalFailure)
+            {
+                int totalRuns = loopCount < 0 ? currentLoop : loopCount;
+                this._PickerStatusLabel.Text =
+                    $"Unlock All complete. {totalSucceeded} succeeded, {totalFailed} failed out of {games.Count * totalRuns} games.";
+
+                MessageBox.Show(
+                    this,
+                    $"Unlock All finished.\n\nSucceeded: {totalSucceeded}\nFailed: {totalFailed}\nTotal: {games.Count * totalRuns}",
+                    "Done",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else if (criticalFailure)
+            {
+                MessageBox.Show(
+                    this,
+                    "A critical error occurred. The process was aborted.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+            this._PickerStatusLabel.Text = "Idle";
+        }
+
+        private async Task<(int succeeded, int failed, bool criticalFailure)> RunUnlockAllIterationAsync(List<GameInfo> games, int currentLoop, int totalLoops, bool infinite)
+        {
             int succeeded = 0;
             int failed = 0;
             int index = 0;
 
+            string exeDir = Path.GetDirectoryName(
+                System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            string samGameExe = Path.Combine(exeDir, "SAM.Game.exe");
+
             foreach (var game in games)
             {
                 index++;
-                this._PickerStatusLabel.Text =
-                    $"Processing game {index}/{games.Count}: {game.Name} (AppID {game.Id})...";
+                this._PickerStatusLabel.Text = infinite ?
+                    $"Loop {currentLoop} (infinite) - Processing {game.Name}" :
+                    $"Loop {currentLoop} of {totalLoops} - Processing {game.Name}";
 
                 ProcessStartInfo startInfo = new()
                 {
@@ -606,23 +686,19 @@ namespace SAM.Picker
                     failed++;
                     this._PickerStatusLabel.Text =
                         $"Game {game.Name} (AppID {game.Id}) failed (exit code {process.ExitCode}).";
+
+                    // Treat certain exit codes as critical
+                    if (process.ExitCode == 2 || process.ExitCode == 3)
+                    {
+                        process.Dispose();
+                        return (succeeded, failed, true);
+                    }
                 }
 
                 process.Dispose();
             }
 
-            this._UnlockAllButton.Enabled = true;
-            this._RefreshGamesButton.Enabled = true;
-
-            this._PickerStatusLabel.Text =
-                $"Unlock All complete. {succeeded} succeeded, {failed} failed out of {games.Count} games.";
-
-            MessageBox.Show(
-                this,
-                $"Unlock All finished.\n\nSucceeded: {succeeded}\nFailed: {failed}\nTotal: {games.Count}",
-                "Done",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            return (succeeded, failed, false);
         }
     }
 }
