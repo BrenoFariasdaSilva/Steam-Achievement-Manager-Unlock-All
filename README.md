@@ -25,7 +25,7 @@ This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://
 ![GitHub Stars](https://img.shields.io/github/stars/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
 ![GitHub Contributors](https://img.shields.io/github/contributors/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
 ![GitHub Created At](https://img.shields.io/github/created-at/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All)
-![wakatime](https://wakatime.com/badge/github/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-Allsvg)
+![wakatime](https://wakatime.com/badge/github/BrenoFariasdaSilva/Steam-Achievement-Manager-Unlock-All.svg)
 
 </div>
 
