@@ -8,7 +8,7 @@
   
 ---
 
-This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://github.com/gibbed/SteamAchievementManager), with a fully automated achievement unlocking system. This fork introduces a new project, **SAM.PickerAuto**, which enables one-click, unattended unlocking of all achievements for all games in your Steam library.
+This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://github.com/gibbed/SteamAchievementManager), with a fully automated achievement unlocking system. This fork introduces a new project, **SAM.PickerAuto**, which enables one-click, unattended unlocking of all achievements for all games in your Steam library. Not only that, but also counts with a multi-loop system, allowing you to repeat the unlock process multiple times with a single click, or even infinitely until you decide to stop it.
   
 ---
 
@@ -102,11 +102,12 @@ Steam Achievement Manager (SAM) is a powerful tool that allows users to manage, 
 - **SAM.PickerAuto**: A new executable (`SAM.PickerAuto.exe`) that automates the achievement unlocking process for all games in your list, requiring only a single click.
 - **Unlock All Button**: Added to the main toolbar, this button triggers a fully automated, asynchronous process that:
   - Iterates through every visible game in the list (respects current filters/search).
-  - Launches `SAM.Game.exe` in headless mode for each AppID, passing a `--unlock-all` argument.
+  - Launches `SAM.Game.exe <AppID> --unlock-all` in headless mode for each AppID, passing a `--unlock-all` argument.
   - Waits for the achievement list to load, selects all achievements, commits them to Steam, and closes the process before moving to the next game.
   - Runs in the background without freezing the UI, with progress and results shown in the status bar.
 - **Headless Mode for SAM.Game**: `SAM.Game.exe` now supports a `--unlock-all` argument for silent, non-interactive unlocking (no UI, no dialogs, exit code signals result).
 - **Robust Inter-Process Automation**: All automation is handled via process invocation and public API, with no UI automation or message-pumping hacks.
+- **Multi-Loop Unlock All**: The Unlock All automation now supports a loop count. Enter a number in the "Loops" box to repeat the entire unlock process for all filtered games multiple times, or use "-1" for infinite looping. The UI remains responsive, and progress is shown per loop and per game. Final results are reported after all loops complete (except in infinite mode).
 
 ## Directory Structure
 
