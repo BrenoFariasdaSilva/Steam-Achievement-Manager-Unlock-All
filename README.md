@@ -337,6 +337,23 @@ Original project by [gibbed](https://github.com/gibbed/SteamAchievementManager).
 
 This fork adds full automation and headless achievement unlocking. See code comments and commit history for detailed implementation notes.
 
+## Collaborators
+
+We thank the following people who contributed to this project:
+
+<table>
+  <tr>
+	 <td align="center">
+		<a href="#" title="defina o titulo do link">
+		  <img src="https://github.com/BrenoFariasdaSilva.png" width="100px;" alt="My Profile Picture"/><br>
+		  <sub>
+			 <b>Breno Farias da Silva</b>
+		  </sub>
+		</a>
+	 </td>
+  </tr>
+</table>
+
 ## License
 
 ### Apache License 2.0
