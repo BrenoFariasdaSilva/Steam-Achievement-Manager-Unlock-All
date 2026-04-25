@@ -29,6 +29,12 @@ This is a modernized fork of [gibbed's Steam Achievement Manager (SAM)](https://
 
 </div>
 
+<div align="center">
+  
+![RepoBeats Statistics](https://repobeats.axiom.co/api/embed/f833f8caf83561972596ad8ce7aee46c5e58a164.svg "Repobeats analytics image")
+
+</div>
+
 
 ## Features
 
