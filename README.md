@@ -108,7 +108,7 @@ Steam Achievement Manager (SAM) is a powerful tool that allows users to manage, 
 - **Headless Mode for SAM.Game**: `SAM.Game.exe` now supports a `--unlock-all` argument for silent, non-interactive unlocking (no UI, no dialogs, exit code signals result).
 - **Robust Inter-Process Automation**: All automation is handled via process invocation and public API, with no UI automation or message-pumping hacks.
 - **Multi-Loop Unlock All**: The Unlock All automation supports a loop count. Enter a number in the "Loops" box to repeat the filtered game list, or use "-1" for infinite looping.
-- **Live progress and ETA**: The bottom-left status bar continuously shows `Loop 1 of 3 - Processing 25/150 Counter-Strike 2 - ETA 02h:14m:37s`. Game numbers are one-based and reset each loop; the total respects the active filter. The ETA uses an adaptive moving average of actual completed-game durations and covers the current game plus every remaining finite-loop attempt. It starts as `Calculating...` until a measurement exists, updates once per second while a game is running, and is `N/A (Infinite)` for infinite loops.
+- **Live progress and ETA**: The bottom-left status bar continuously shows `Loop 1 of 3 - ETA 02h:14m:37s - Processing 25/150 Counter-Strike 2`. Game numbers are one-based and reset each loop; the total respects the active filter. The ETA uses an adaptive moving average of actual completed-game durations and covers the current game plus every remaining finite-loop attempt. It starts as `ETA Calculating...` until a measurement exists, updates once per second while a game is running, and is `ETA N/A (Infinite)` for infinite loops.
 
 ## Directory Structure
 

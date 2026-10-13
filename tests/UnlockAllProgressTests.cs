@@ -7,10 +7,10 @@ internal static class UnlockAllProgressTests
     {
         var progress = new UnlockAllProgress(2, 3, false);
         progress.StartGame(1, 1);
-        Assert(progress.GetStatus("Game").EndsWith("ETA Calculating..."), "initial estimate");
-        Assert(progress.GetStatus("Game").Contains("Processing 1/2"), "one-based index");
+        Assert(progress.GetStatus("Game") == "Loop 1 of 3 - ETA Calculating... - Processing 1/2 Game", "initial estimate");
         progress.CompleteGame(TimeSpan.FromSeconds(10));
         progress.StartGame(1, 2);
+        Assert(progress.GetStatus("Game").StartsWith("Loop 1 of 3 - ETA ") && progress.GetStatus("Game").EndsWith(" - Processing 2/2 Game"), "normal status ordering");
         Assert(IsNear(progress.GetRemainingDuration(), TimeSpan.FromSeconds(50)), "first-loop ETA");
         progress.CompleteGame(TimeSpan.FromSeconds(10));
         progress.StartGame(2, 1);
@@ -19,12 +19,12 @@ internal static class UnlockAllProgressTests
 
         var infinite = new UnlockAllProgress(1, -1, true);
         infinite.StartGame(7, 1);
-        Assert(infinite.GetStatus("Game").EndsWith("ETA N/A (Infinite)"), "infinite status");
+        Assert(infinite.GetStatus("Game") == "Loop 7 of ∞ - ETA N/A (Infinite) - Processing 1/1 Game", "infinite status");
         Assert(new UnlockAllProgress(0, 1, false).GetRemainingDuration() == null, "zero games");
 
         var reset = new UnlockAllProgress(1, 1, false);
         reset.StartGame(1, 1);
-        Assert(reset.GetStatus("Game").EndsWith("ETA Calculating..."), "new run resets estimate");
+        Assert(reset.GetStatus("Game") == "Loop 1 of 1 - ETA Calculating... - Processing 1/1 Game", "new run resets estimate");
     }
 
     private static void Assert(bool condition, string name)

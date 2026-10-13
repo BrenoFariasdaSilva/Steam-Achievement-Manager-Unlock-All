@@ -49,14 +49,15 @@ namespace SAM.Picker
         public string GetStatus(string gameName)
         {
             string loopText = _Infinite ? $"Loop {_CurrentLoop} of ∞" : $"Loop {_CurrentLoop} of {_TotalLoops}";
-            string prefix = $"{loopText} - Processing {_CurrentGameIndex}/{_TotalGames} {gameName} - ETA ";
+            string prefix = $"{loopText} - ETA ";
+            string processing = $" - Processing {_CurrentGameIndex}/{_TotalGames} {gameName}";
             if (_Infinite)
             {
-                return prefix + "N/A (Infinite)";
+                return prefix + "N/A (Infinite)" + processing;
             }
 
             TimeSpan? remaining = GetRemainingDuration();
-            return prefix + (remaining.HasValue ? FormatDuration(remaining.Value) : "Calculating...");
+            return prefix + (remaining.HasValue ? FormatDuration(remaining.Value) : "Calculating...") + processing;
         }
 
         public TimeSpan? GetRemainingDuration()
