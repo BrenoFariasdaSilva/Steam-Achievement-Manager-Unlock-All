@@ -51,6 +51,9 @@ namespace SAM.Picker
         private readonly ConcurrentQueue<GameInfo> _LogoQueue;
 
         private readonly API.Callbacks.AppDataChanged _AppDataChangedCallback;
+        private readonly Timer _UnlockAllProgressTimer;
+        private UnlockAllProgress _UnlockAllProgress;
+        private string _UnlockAllGameName;
 
         public GamePicker(API.Client client)
         {
@@ -62,6 +65,11 @@ namespace SAM.Picker
             this._LogoQueue = new();
 
             this.InitializeComponent();
+            this._UnlockAllProgressTimer = new Timer(this.components)
+            {
+                Interval = 1000,
+            };
+            this._UnlockAllProgressTimer.Tick += this.OnUnlockAllProgressTimer;
 
             Bitmap blank = new(this._LogoImageList.ImageSize.Width, this._LogoImageList.ImageSize.Height);
             using (var g = Graphics.FromImage(blank))
@@ -436,6 +444,14 @@ namespace SAM.Picker
             this._CallbackTimer.Enabled = true;
         }
 
+        private void OnUnlockAllProgressTimer(object sender, EventArgs e)
+        {
+            if (this._UnlockAllProgress != null && this._UnlockAllGameName != null)
+            {
+                this._PickerStatusLabel.Text = this._UnlockAllProgress.GetStatus(this._UnlockAllGameName);
+            }
+        }
+
         private void OnActivateGame(object sender, EventArgs e)
         {
             var focusedItem = (sender as MyListView)?.FocusedItem;
@@ -581,6 +597,8 @@ namespace SAM.Picker
 
             this._UnlockAllButton.Enabled = false;
             this._RefreshGamesButton.Enabled = false;
+            this._UnlockAllProgress = new UnlockAllProgress(games.Count, loopCount, infinite);
+            this._UnlockAllProgressTimer.Start();
 
             try
             {
@@ -607,6 +625,9 @@ namespace SAM.Picker
             }
             finally
             {
+                this._UnlockAllProgressTimer.Stop();
+                this._UnlockAllProgress = null;
+                this._UnlockAllGameName = null;
                 this._UnlockAllButton.Enabled = true;
                 this._RefreshGamesButton.Enabled = true;
             }
@@ -634,7 +655,10 @@ namespace SAM.Picker
                     MessageBoxIcon.Error);
             }
 
-            this._PickerStatusLabel.Text = "Idle";
+            if (criticalFailure || infinite)
+            {
+                this._PickerStatusLabel.Text = "Idle";
+            }
         }
 
         private async Task<(int succeeded, int failed, bool criticalFailure)> RunUnlockAllIterationAsync(List<GameInfo> games, int currentLoop, int totalLoops, bool infinite)
@@ -650,9 +674,9 @@ namespace SAM.Picker
             foreach (var game in games)
             {
                 index++;
-                this._PickerStatusLabel.Text = infinite ?
-                    $"Loop {currentLoop} (infinite) - Processing {game.Name}" :
-                    $"Loop {currentLoop} of {totalLoops} - Processing {game.Name}";
+                this._UnlockAllGameName = game.Name;
+                this._UnlockAllProgress.StartGame(currentLoop, index);
+                this._PickerStatusLabel.Text = this._UnlockAllProgress.GetStatus(game.Name);
 
                 ProcessStartInfo startInfo = new()
                 {
@@ -669,6 +693,7 @@ namespace SAM.Picker
                 }
                 catch (Exception ex)
                 {
+                    this._UnlockAllProgress.CompleteGame();
                     this._PickerStatusLabel.Text =
                         $"Failed to start SAM.Game.exe for {game.Name}: {ex.Message}";
                     failed++;
@@ -676,6 +701,7 @@ namespace SAM.Picker
                 }
 
                 await Task.Run(() => process.WaitForExit());
+                this._UnlockAllProgress.CompleteGame();
 
                 if (process.ExitCode == 0)
                 {
