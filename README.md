@@ -107,7 +107,8 @@ Steam Achievement Manager (SAM) is a powerful tool that allows users to manage, 
   - Runs in the background without freezing the UI, with progress and results shown in the status bar.
 - **Headless Mode for SAM.Game**: `SAM.Game.exe` now supports a `--unlock-all` argument for silent, non-interactive unlocking (no UI, no dialogs, exit code signals result).
 - **Robust Inter-Process Automation**: All automation is handled via process invocation and public API, with no UI automation or message-pumping hacks.
-- **Multi-Loop Unlock All**: The Unlock All automation now supports a loop count. Enter a number in the "Loops" box to repeat the entire unlock process for all filtered games multiple times, or use "-1" for infinite looping. The UI remains responsive, and progress is shown per loop and per game. Final results are reported after all loops complete (except in infinite mode).
+- **Multi-Loop Unlock All**: The Unlock All automation supports a loop count. Enter a number in the "Loops" box to repeat the filtered game list, or use "-1" for infinite looping.
+- **Live progress and ETA**: The bottom-left status bar continuously shows `Loop 1 of 3 - Processing 25/150 Counter-Strike 2 - ETA 02h:14m:37s`. Game numbers are one-based and reset each loop; the total respects the active filter. The ETA uses an adaptive moving average of actual completed-game durations and covers the current game plus every remaining finite-loop attempt. It starts as `Calculating...` until a measurement exists, updates once per second while a game is running, and is `N/A (Infinite)` for infinite loops.
 
 ## Directory Structure
 
@@ -239,7 +240,7 @@ This is required for:
 Inside Visual Studio Installer, ensure the following are selected:
 
 #### Individual Components
-- .NET Framework 4.x targeting pack (match solution target version)
+- [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 - MSBuild
 - Windows 10/11 SDK
 - C# and Visual Basic Roslyn compiler
@@ -304,6 +305,12 @@ This will compile:
 - SAM.Picker
 - SAM.PickerAuto
 
+Windows 10 command-line build (Release/x86):
+
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" "SAM.sln" /restore /m /p:Configuration=Release /p:Platform=x86
+```
+
 ---
 
 #### Cancel Build
@@ -329,11 +336,10 @@ Alt + F11
 
 ### 6. Output Location
 
-After successful build, executables will be generated in:
+After a Release/x86 build, the complete runtime distribution is generated in:
 
 ```
-/bin/Debug/
-/bin/Release/
+upload/
 ```
 
 Depending on configuration:
@@ -341,6 +347,8 @@ Depending on configuration:
 - `SAM.Picker.exe`
 - `SAM.PickerAuto.exe`
 - `SAM.Game.exe`
+
+For manual distribution, copy the complete `upload/` directory to `Releases/Steam-Achievement-Manager-Unlock-All-8.1.0/` and archive that directory as `Releases/Steam-Achievement-Manager-Unlock-All-8.1.0.zip`. Keep all generated runtime files together, including `SAM.API.dll` and any dependency DLLs.
 
 ---
 
